@@ -36,3 +36,20 @@
 .sidebar i {
     margin-right: 10px; /* Space between icon and text */
 }
+
+/* Indentation for sub-sections */
+.nav.flex-column .nav-link {
+    padding-left: 15px;
+}
+
+/* Add hover effect for links */
+.nav-link:hover {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+/* Highlight active link */
+.nav-link.active {
+    font-weight: bold;
+    color: #007bff;
+}
