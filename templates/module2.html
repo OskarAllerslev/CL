@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Module 1{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Integraler</h1>
+    <p>
+        Ideen om et integral er faktisk bare det samme som en sum! Eksempelvis denne, som blot tæller alle positive heltal:
+        \begin{align}
+        \sum_{i=1}^{\infty} i = 1 + 2 + 3 + 4 \dots
+        \end{align}
+    </p>
+
+    <p>
+        Integralet har en formel definition, som vi selvfølgelig skal kunne forstå. 
+        \begin{align}
+        \lim_{\Delta x \rightarrow 0} \sum_{x=a}^b f(x) \Delta x = \int_{a}^{b} f(x)  dx
+        \end{align}
+    </p>
+    Udtrykket forstå altså som summen af funktionen \( f(x) \) over intervallet \([a, b]\), hvor \(\Delta x\) er bredden af hvert interval. Så integralet er så defineret som summen, når man lader disse intervalbredder 
+    gå mod nul. 
+
+    <!-- Theorem Box -->
+    <div class="card mb-3 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Example 6.1.3</h5>
+            <p class="card-text">
+                Solve \( \frac{dy}{dx} = e^x \) for \( x \in \mathbb{R} \).
+            </p>
+            <p class="card-text">
+                Integrating both sides, we get:
+                \[ y = e^x + c \]
+                The solution curves for various values of \( c \) are parallel.
+            </p>
+            <img src="/static/images/example_graph.png" class="img-fluid" alt="Example Graph">
+        </div>
+    </div>
+
+
+{% endblock %}
