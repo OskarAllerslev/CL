@@ -1,0 +1,38 @@
+.sidebar {
+    background-color: #f8f9fa; /* Light gray background */
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    border-right: 1px solid #ddd; /* Light border */
+}
+
+.sidebar h4 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #343a40; /* Dark text color */
+}
+
+.sidebar ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+.sidebar a {
+    display: block;
+    padding: 10px 15px;
+    color: #495057; /* Bootstrap dark text */
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+}
+
+.sidebar i {
+    margin-right: 10px; /* Space between icon and text */
+}
