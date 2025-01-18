@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Integration Over the Unit Sphere{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="page-box">
+        <h1 class="mb-4">Integration Over the Unit Sphere</h1>
+
+        <p>
+            Denne visualisering giver dig mulighed for at vælge integrationsintervaller for både \(x\)- og \(y\)-aksen. Observér, hvordan det valgte område påvirker integrationen over enhedssfæren.
+        </p>
+
+        <div id="plot" style="width: 100%; height: 600px;"></div>
+
+        <p>
+            Justér sliderne nedenfor for at vælge integrationsintervaller og se, hvordan sfærens integrerede område ændres.
+        </p>
+
+        <div style="width: 80%; margin: auto; display: flex; justify-content: space-around; align-items: center;">
+            <label>
+                \(x\) Min: <span id="xMinValue">-1</span>
+                <input type="range" id="xMinSlider" min="-1" max="1" step="0.1" value="-1">
+            </label>
+            <label>
+                \(x\) Max: <span id="xMaxValue">1</span>
+                <input type="range" id="xMaxSlider" min="-1" max="1" step="0.1" value="1">
+            </label>
+        </div>
+
+        <div style="width: 80%; margin: auto; display: flex; justify-content: space-around; align-items: center; margin-top: 20px;">
+            <label>
+                \(y\) Min: <span id="yMinValue">-1</span>
+                <input type="range" id="yMinSlider" min="-1" max="1" step="0.1" value="-1">
+            </label>
+            <label>
+                \(y\) Max: <span id="yMaxValue">1</span>
+                <input type="range" id="yMaxSlider" min="-1" max="1" step="0.1" value="1">
+            </label>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    // Generate points on a sphere
+    function generateSpherePoints(resolution = 50) {
+        const x = [];
+        const y = [];
+        const z = [];
+
+        for (let i = 0; i <= resolution; i++) {
+            const theta = (Math.PI * i) / resolution; // From 0 to π
+            for (let j = 0; j <= resolution; j++) {
+                const phi = (2 * Math.PI * j) / resolution; // From 0 to 2π
+                const xi = Math.sin(theta) * Math.cos(phi);
+                const yi = Math.sin(theta) * Math.sin(phi);
+                const zi = Math.cos(theta);
+
+                x.push(xi);
+                y.push(yi);
+                z.push(zi);
+            }
+        }
+
+        return { x, y, z };
+    }
+
+    // Generate integration data for the given x and y range
+    function generateIntegrationData(xMin, xMax, yMin, yMax, resolution = 50) {
+        const x = [];
+        const y = [];
+        const z = [];
+
+        for (let i = 0; i <= resolution; i++) {
+            const theta = (Math.PI * i) / resolution; // From 0 to π
+            for (let j = 0; j <= resolution; j++) {
+                const phi = (2 * Math.PI * j) / resolution; // From 0 to 2π
+                const xi = Math.sin(theta) * Math.cos(phi);
+                const yi = Math.sin(theta) * Math.sin(phi);
+                const zi = Math.cos(theta);
+
+                if (xi >= xMin && xi <= xMax && yi >= yMin && yi <= yMax) {
+                    x.push(xi);
+                    y.push(yi);
+                    z.push(zi);
+                }
+            }
+        }
+
+        return { x, y, z };
+    }
+
+    // Fixed sphere structure
+    const sphere = generateSpherePoints();
+
+    // Initial integration range
+    let xMin = -1;
+    let xMax = 1;
+    let yMin = -1;
+    let yMax = 1;
+
+    const integrationData = generateIntegrationData(xMin, xMax, yMin, yMax);
+
+    // Plot the initial graph
+    const data = [
+        {
+            x: sphere.x,
+            y: sphere.y,
+            z: sphere.z,
+            type: "mesh3d",
+            opacity: 0.3, // Make the sphere slightly transparent
+            colorscale: "Greys",
+            name: "Unit Sphere",
+        },
+        {
+            x: integrationData.x,
+            y: integrationData.y,
+            z: integrationData.z,
+            type: "mesh3d",
+            opacity: 1, // Make the integration area solid
+            colorscale: "Viridis",
+            name: "Integrated Area",
+        },
+    ];
+
+    const layout = {
+        title: "Integration Over the Unit Sphere",
+        scene: {
+            xaxis: { title: "x", range: [-1.2, 1.2] },
+            yaxis: { title: "y", range: [-1.2, 1.2] },
+            zaxis: { title: "z", range: [-1.2, 1.2] },
+        },
+    };
+
+    Plotly.newPlot("plot", data, layout);
+
+    // Update the plot and slider values when sliders are adjusted
+    function updatePlot() {
+        xMin = parseFloat(document.getElementById("xMinSlider").value);
+        xMax = parseFloat(document.getElementById("xMaxSlider").value);
+        yMin = parseFloat(document.getElementById("yMinSlider").value);
+        yMax = parseFloat(document.getElementById("yMaxSlider").value);
+
+        document.getElementById("xMinValue").innerText = xMin.toFixed(1);
+        document.getElementById("xMaxValue").innerText = xMax.toFixed(1);
+        document.getElementById("yMinValue").innerText = yMin.toFixed(1);
+        document.getElementById("yMaxValue").innerText = yMax.toFixed(1);
+
+        const integrationData = generateIntegrationData(xMin, xMax, yMin, yMax);
+
+        Plotly.restyle("plot", {
+            x: [integrationData.x],
+            y: [integrationData.y],
+            z: [integrationData.z],
+        }, [1]); // Update only the integrated area
+    }
+
+    document.getElementById("xMinSlider").addEventListener("input", updatePlot);
+    document.getElementById("xMaxSlider").addEventListener("input", updatePlot);
+    document.getElementById("yMinSlider").addEventListener("input", updatePlot);
+    document.getElementById("yMaxSlider").addEventListener("input", updatePlot);
+</script>
+
+{% endblock %}

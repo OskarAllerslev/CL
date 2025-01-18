@@ -14,6 +14,10 @@ def integraler():
 def definite_integral():
     return render_template('definite_integral.html')
 
+@app.route('/integraleradvanceret')
+def integraleradvanceret():
+    return render_template('integraleradvanceret.html')
+
 @app.route('/probability-intro')
 def probability_intro():
     return render_template('probability_intro.html')
