@@ -3,14 +3,129 @@
 {% block title %}Introduktion til sandsynlighed{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1 class="mb-4">Introduktion til sandsynlighed</h1>
-    <p>
-        Sandsynlighed er studiet af tilfældigheder og begivenheder.
-        For eksempel, sandsynligheden for at slå en sekser med en terning er:
-        \[
-        P(6) = \frac{1}{6}
-        \]
-    </p>
+
+<div class = "container mt-5">
+
+    <div class = "page-box">
+
+        <h1 class = "mb-4">Introduktion til sandsynlighed</h1>
+
+        <p> 
+            Sandsynlighedsregning er en gren af matematikken som man slet ikke kan overleve uden. Vi kan starte med at motivere læren om sandsynlighed med et eksempel.
+        </p>
+
+
+        <!-- eksempel til at motivere ssh. -->
+        <div class="card card-example mb-3 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title"> Motiverende eksempel på benyttelse af sandsynlighed</h5>
+
+                <p class="card-text">
+                    Lad os sige at vi spiller russisk roulette, hvor vi har en revolver med 6 kamre og en kugle. Vi får at vide at vi får 1 million kroner hvis vi overlever. 
+                    Vi regner først sandsynligheden for at overleve. 
+
+                    \begin{align*}
+                        P(\text{overleve}) = \frac{\text{Antal kamre uden kugle}}{\text{Antal kamre}} = \frac{5}{6}
+                    \end{align*}
+
+
+                    Vi kan også regne sandsynligheden for at dø.
+
+                    \begin{align*}
+                        P(\text{dø}) = \frac{\text{Antal kamre med kugle}}{\text{Antal kamre}} = \frac{1}{6}
+                    \end{align*}
+
+                    Men hvad nu hvis jeg gerne vil vide hvad jeg kan 'forvente' at få ud af at spille russisk roulette? 
+
+                    \begin{align*}
+                        \text{Forventet værdi} &= P(\text{overleve}) \cdot \text{gevinst} + P(\text{dø}) \cdot \text{tab} \\
+                        &= \frac{5}{6} \cdot 1.000.000 + \frac{1}{6} \cdot 0 \\
+                        &= 833.333,33
+                    \end{align*}
+                </p>
+            </div>
+        </div>
+        Vi har her benytten mange af de grundlæggende begreber inden for sandsynlighedsregning. Vi har regnet sandsynligheder, og vi har regnet forventningsværdi. 
+        Men for at man kan blive rigtig god til sandsynlighedsregning, så er det super vigtigt at man kan forholde sig til den generelle teori om sandsynlighedsregning.
+        Lad os derfor introducere den notation man benytter for at snakke om sandsynlighed.
+
+        <div class="card card-theorem mb-3 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Definitionen af Stokastiske variable</h5>
+                <p class="card-text">
+                    En stokastisk variabel \( X \) er en 'funktion' som tager værdier fra vores udfaldsrum og 'sender' dem til vores sandsynlighedsrum. Woah! det var lidt af en mundfuld, men dette er super vigtigt!
+
+                </p>
+                <div style="display: flex; justify-content: center; margin-top: 20px;">
+                    <svg width="600" height="300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Omega -->
+                        <rect x="50" y="50" width="150" height="200" rx="15" ry="15" fill="url(#omegaGradient)" stroke="blue" stroke-width="2"></rect>
+                        <text x="125" y="40" text-anchor="middle" font-size="20" fill="blue">Ω</text>
+                        <text x="125" y="100" text-anchor="middle" font-size="14" fill="black">Udfaldsrum</text>
+                        <text x="125" y="160" text-anchor="middle" font-size="14" fill="black">ω</text>
+
+                        <!-- Pil -->
+                        <line x1="200" y1="150" x2="400" y2="150" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"></line>
+                        <text x="300" y="135" text-anchor="middle" font-size="16" fill="black">X : Ω → ℝ</text>
+
+                        <!-- ℝ -->
+                        <rect x="400" y="50" width="150" height="200" rx="15" ry="15" fill="url(#rGradient)" stroke="green" stroke-width="2"></rect>
+                        <text x="475" y="40" text-anchor="middle" font-size="20" fill="green">ℝ</text>
+                        <text x="475" y="100" text-anchor="middle" font-size="14" fill="black">Sandsynlighedsrum</text>
+                        <text x="475" y="160" text-anchor="middle" font-size="14" fill="black">X(ω)</text>
+
+                        <!-- Gradient definition -->
+                        <defs>
+                            <linearGradient id="omegaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color: lightblue; stop-opacity: 1" />
+                                <stop offset="100%" style="stop-color: white; stop-opacity: 1" />
+                            </linearGradient>
+                            <linearGradient id="rGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color: lightgreen; stop-opacity: 1" />
+                                <stop offset="100%" style="stop-color: white; stop-opacity: 1" />
+                            </linearGradient>
+                            <!-- Arrowhead -->
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="black" />
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+                
+
+            </div>
+        </div>
+
+        <p>
+            Vi kan holde det om mod vores eksempel, hvor vi tog vores udfaldsrum \( \Omega = \{ \text{Overleve}, \text{Dø} \} \) og gav hver af udfaldene en værdi i vores sandsynlighedsrum \( [0,1] \).
+        </p>
+        <h6> 
+            Eksempelvis:
+        </h6>
+        <p>
+            I vores eksempel tidligere, så vi på ssh. for at dø, som kan oversættes til 
+            \begin{align*}
+            P(X(\text{Dø})) = \frac{1}{6}
+            \end{align*}
+            Det er meget vigtigt at man bliver fortrolig med at skrive sin sandsynligheder ud på denne måde, da det hurtigt kan blive meget kompliceret.
+            Dette leder os faktisk til endnu en definition.
+        </p>
+        
+        <div class="card card-theorem mb-3 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Definitionen af Sandsynlighedsfordeling</h5>
+                <p class="card-text">
+                    En sandsynlighedsfordeling er en funktion som tager en stokastisk variabel og sender den til en sandsynlighed. 
+                    \begin{align*}
+                        P_X(x) = P(X = x)
+                    \end{align*}
+                    Dette er en super vigtig definition, da det er denne funktion som fortæller os sandsynligheden for at en stokastisk variabel tager en bestemt værdi. 
+                </p>
+            </div>
+
+
+
+    </div>
 </div>
+
 {% endblock %}

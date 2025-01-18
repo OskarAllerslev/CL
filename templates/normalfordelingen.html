@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Normalfordelingen{% endblock %}
+
+{% block content %}
+
+<div class = "container mt-5">
+    <div class = "page-box">
+        <h1 class = "mb-4">Normalfordelingen</h1>
+
+        <p> 
+            Normalfordelingen, eller Gauss-fordelingen, er en af de mest anvendte sandsynlighedsfordelinger i statistik. Den bruges hele tiden og opstår naturligt i mange datasæt.
+            Eksempelvis hvis man ser på højden af drenge, eller piger i en klasse, så vil højden ofte være normalfordelt. Men vi skal lige se på den matematiske definition af normalfordelingen.
+        </p>
+
+        <div class="card card-theorem mb-3 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Definitionen af Normalfordelingen</h5>
+                <p class="card-text">
+                    En såkaldt normalfordelingen er defineret ved to parametre - middelværdien \( \mu \) og variansen \( \sigma^2 \). Med parmetre menes blot to tal som kan tage visse værdier. 
+                    Den matematiske formel for normalfordelingen er:
+                    \begin{align*} 
+                        f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2} \left( \frac{x - \mu}{\sigma} \right)^2}
+                    \end{align*}
+
+                    Hvor \( \mu \) er middelværdien og \( \sigma^2 \) er variansen. Middelværdien kan her tage værdier i hele det reelle tal, mens variansen er positiv. 
+                    Med matematisk notation skriver vi at \( X \sim N(\mu, \sigma^2) \) for at sige at en stokastisk variabel \( X \) er normalfordelt med middelværdi \( \mu \in \mathbb{R} \) 
+                    og varians \( \sigma^2 \in \mathbb{R}_+\).
+
+                </p>
+        </div>
+        
+        Normalfordelingen benyttes til stort set alt matematik specielt i statistik og sandsynlighedsregning.
+
+    </div>
+</div>
+
+
+
+{% endblock %}
