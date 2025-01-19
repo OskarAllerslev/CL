@@ -256,3 +256,46 @@ footer a:hover {
         margin-left: 0;
     }
 }
+
+/* Tooltip container */
+.textbox {
+    position: relative; /* Necessary for positioning the text box */
+    display: inline-block;
+    cursor: pointer;
+    color: #0288d1;
+}
+
+/* The text box (hidden by default) */
+.textbox .box {
+    visibility: hidden; /* Hidden initially */
+    width: 200px; /* Width of the text box */
+    background-color: #333; /* Background color */
+    color: #fff; /* Text color */
+    text-align: center;
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Padding inside the box */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position above the element */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0; /* Fully transparent */
+    transition: opacity 0.3s; /* Smooth fade-in effect */
+}
+
+.textbox:hover .box {
+    visibility: visible; /* Make it visible */
+    opacity: 1; /* Fully opaque */
+}
+
+/* Optional: Add an arrow pointing to the element */
+.textbox .box::after {
+    content: '';
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip box */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
