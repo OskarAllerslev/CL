@@ -1,7 +1,7 @@
 /* General Styles */
 body {
     font-family: 'Roboto', sans-serif;
-    color: #343a40; /* Bootstrap dark text */
+    color: #000000; /* Bootstrap dark text */
     background-color: #f8f9fa; /* Light gray */
     margin: 0;
     padding: 0;
@@ -262,7 +262,9 @@ footer a:hover {
     position: relative; /* Necessary for positioning the text box */
     display: inline-block;
     cursor: pointer;
-    color: #0288d1;
+    border-bottom: 2px solid #007bff; /* Blå understregning med 2px tykkelse */
+    padding-bottom: 0px; /* Afstand mellem tekst og understregning */
+    transition: background-color 0.3s; /* Smooth background color transition */
 }
 
 /* The text box (hidden by default) */
