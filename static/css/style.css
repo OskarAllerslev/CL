@@ -1,7 +1,7 @@
 /* General Styles */
 body {
     font-family: 'Roboto', sans-serif;
-    color: #343a40; /* Bootstrap dark text */
+    color: #000000; /* Bootstrap dark text */
     background-color: #f8f9fa; /* Light gray */
     margin: 0;
     padding: 0;
@@ -336,7 +336,9 @@ footer a:hover {
     position: relative; /* Necessary for positioning the text box */
     display: inline-block;
     cursor: pointer;
-    color: #0288d1;
+    border-bottom: 2px solid #007bff; /* Blå understregning med 2px tykkelse */
+    padding-bottom: 0px; /* Afstand mellem tekst og understregning */
+    transition: background-color 0.3s; /* Smooth background color transition */
 }
 
 /* The text box (hidden by default) */
@@ -388,4 +390,88 @@ video::-webkit-media-controls {
 
 video::-webkit-media-controls-enclosure {
     display: none !important; /* Skjul kontroller i Chrome/Safari */
+}
+.quiz-section {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+}
+
+.quiz-section h2 {
+    color: #007bff;
+    font-size: 1.75rem;
+    margin-bottom: 20px;
+}
+
+.quiz-section .card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+
+.quiz-section .card-title {
+    color: #0056b3;
+    font-size: 1.25rem;
+}
+
+.quiz-section .card-text {
+    color: #333333;
+}
+
+.quiz-section .btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.quiz-section .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.correct-answer {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.wrong-answer {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Styling af radioknapper */
+.form-check-input {
+    width: 1.2em; /* Større bredde */
+    height: 1.2em; /* Større højde */
+    margin-top: 0.2em; /* Juster placering */
+    border: 2px solid #007bff; /* Blå ramme */
+    cursor: pointer; /* Viser, at det er klikbart */
+    transition: all 0.3s ease; /* Glat overgang */
+}
+
+/* Hover-effekt på radioknapper */
+.form-check-input:hover {
+    border-color: #0056b3; /* Mørkere blå ved hover */
+    transform: scale(1.1); /* Lidt større ved hover */
+}
+
+/* Når radioknappen er valgt */
+.form-check-input:checked {
+    background-color: #007bff; /* Blå farve, når valgt */
+    border-color: #007bff; /* Blå ramme, når valgt */
+}
+
+/* Styling af tekstlabel */
+.form-check-label {
+    margin-left: 10px; /* Mere plads mellem knap og tekst */
+    font-size: 1rem; /* Tekststørrelse */
+    color: #333333; /* Mørkegrå tekst */
+    cursor: pointer; /* Viser, at det er klikbart */
+}
+
+/* Hover-effekt på label */
+.form-check-label:hover {
+    color: #007bff; /* Blå tekst ved hover */
 }

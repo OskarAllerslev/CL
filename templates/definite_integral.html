@@ -18,5 +18,143 @@
             </span>
         </span>.
     </p>
+
+    <!-- Quiz Section -->
+    <div class="quiz-section mt-5">
+        <h2>Integraler Quiz</h2>
+        <form id="quiz-form">
+            <!-- Spørgsmål 1 -->
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Spørgsmål 1</h5>
+                    <p class="card-text">Hvad er integralet af \( x^2 \)?</p>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="question1" id="q1_option1" value="1">
+                        <label class="form-check-label" for="q1_option1">\( x^3 \)</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="question1" id="q1_option2" value="2">
+                        <label class="form-check-label" for="q1_option2">\( \frac{x^3}{3} \)</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="question1" id="q1_option3" value="3">
+                        <label class="form-check-label" for="q1_option3">\( 2x \)</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="question1" id="q1_option4" value="4">
+                        <label class="form-check-label" for="q1_option4">\( x^2 \)</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spørgsmål 2 -->
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Spørgsmål 2</h5>
+                    <p class="card-text">Hvad er integralet af \( e^x \)?</p>
+
+                    <!-- Knapblok til matematisk notation -->
+                    <div class="math-buttons mb-3">
+                        <button type="button" class="btn btn-secondary" onclick="insertIntegral()">∫ med grænser</button>
+                        <button type="button" class="btn btn-secondary" onclick="insertFraction()">Brøk</button>
+                        <button type="button" class="btn btn-secondary" onclick="insertSymbol('^')">^</button>
+                        <button type="button" class="btn btn-secondary" onclick="insertSymbol('(')">(</button>
+                        <button type="button" class="btn btn-secondary" onclick="insertSymbol(')')">)</button>
+                        <button type="button" class="btn btn-secondary" onclick="insertSymbol('e')">e</button>
+                        <button type="button" class="btn btn-secondary" onclick="insertSymbol('x')">x</button>
+                        <button type="button" class="btn btn-secondary" onclick="insertSymbol('+')">+</button>
+                        <button type="button" class="btn btn-secondary" onclick="insertSymbol('-')">-</button>
+                        <button type="button" class="btn btn-secondary" onclick="insertSymbol('*')">*</button>
+                        <button type="button" class="btn btn-secondary" onclick="insertSymbol('/')">/</button>
+                    </div>
+
+                    <!-- MathQuill input-felt -->
+                    <div id="mathquill-input" class="mathquill-input form-control" style="height: auto; min-height: 100px;"></div>
+
+                    <!-- Skjult input til at gemme den rå LaTeX-kode -->
+                    <input type="hidden" id="answer2" name="answer2">
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" onclick="checkAnswers()">Indsend svar</button>
+        </form>
+
+        <!-- Resultat Section -->
+        <div id="quiz-result" class="mt-4" style="display: none;">
+            <h3>Quiz Resultat</h3>
+            <div class="alert alert-info">
+                Du fik <span id="score"></span> ud af <span id="total"></span> spørgsmål korrekt!
+            </div>
+            <button type="button" class="btn btn-secondary" onclick="resetQuiz()">Prøv igen</button>
+        </div>
+    </div>
 </div>
+
+<!-- JavaScript for Quiz -->
+<script>
+// Funktion til at indsætte symboler i MathQuill-feltet
+function insertSymbol(symbol) {
+    const mathField = MathQuill.getInterface(MathQuill.getInterface.MAX).MathField(document.getElementById('mathquill-input'));
+    mathField.write(symbol);
+    mathField.focus(); // Behold fokus på MathQuill-feltet
+}
+
+// Funktion til at indsætte integraltegnet med grænser
+function insertIntegral() {
+    const mathField = MathQuill.getInterface(MathQuill.getInterface.MAX).MathField(document.getElementById('mathquill-input'));
+    
+    // Indsæt integralet med pladsholdere for grænser
+    mathField.write('\\int_{a}^{b}');
+    
+    // Flyt markøren til "a" pladsholder
+    mathField.moveToLeftEnd(); // Flyt markøren til starten af integralet
+    mathField.keystroke('Right'); // Flyt markøren til "a" pladsholder
+    mathField.focus(); // Behold fokus på MathQuill-feltet
+}
+
+// Funktion til at indsætte en brøk
+function insertFraction() {
+    const mathField = MathQuill.getInterface(MathQuill.getInterface.MAX).MathField(document.getElementById('mathquill-input'));
+    
+    // Indsæt en brøk med MathQuill's indbyggede funktion
+    mathField.cmd('frac');
+    
+    // Flyt markøren til tælleren
+    mathField.keystroke('Left'); // Flyt markøren til tælleren
+    mathField.focus(); // Behold fokus på MathQuill-feltet
+}
+
+// Funktion til at tjekke svarene
+function checkAnswers() {
+    let score = 0;
+    const totalQuestions = 2;
+
+    // Tjek spørgsmål 1 (multiple-choice)
+    const selectedOption1 = document.querySelector('input[name="question1"]:checked');
+    if (selectedOption1 && selectedOption1.value == 1) {
+        score++;
+    }
+
+    // Tjek spørgsmål 2 (MathQuill input)
+    const userAnswer = document.getElementById('answer2').value.trim();
+    const expectedAnswer = "e^x"; // Det forventede svar
+
+    if (userAnswer === expectedAnswer) {
+        score++;
+    }
+
+    // Vis resultatet
+    document.getElementById('score').textContent = score;
+    document.getElementById('total').textContent = totalQuestions;
+    document.getElementById('quiz-result').style.display = 'block';
+}
+
+// Funktion til at nulstille quizzen
+function resetQuiz() {
+    document.getElementById('quiz-form').reset();
+    document.getElementById('quiz-result').style.display = 'none';
+    const mathField = MathQuill.getInterface(MathQuill.getInterface.MAX).MathField(document.getElementById('mathquill-input'));
+    mathField.latex(''); // Ryd MathQuill-feltet
+}
+</script>
 {% endblock %}
