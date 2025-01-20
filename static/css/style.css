@@ -7,7 +7,6 @@ body {
     padding: 0;
 }
 
-
 /* container style */ 
 .page-box {
     background-color: #ffffff;
@@ -18,8 +17,6 @@ body {
     margin-bottom: 30px;
     margin-top: 30px; /* Optional for extra spacing */
 }
-
-
 
 /* Sidebar Styles */
 .sidebar {
@@ -100,6 +97,83 @@ body {
     margin-right: 10px;
 }
 
+/* Stil for både btn-danger og btn-success */
+.sidebar .btn-danger,
+.sidebar .btn-success {
+    width: calc(100% - 1.5rem);
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+    background-color: #ffffff; /* Hvid baggrund */
+    border: 2px solid #007bff; /* Blå kant (samme farve som temaet) */
+    border-radius: 25px; /* Runde hjørner */
+    color: #007bff; /* Blå tekst */
+    font-weight: 500; /* Fed tekst */
+    padding: 10px 20px; /* Padding */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Skyggeeffekt */
+    display: flex; /* For at centrere ikon og tekst */
+    align-items: center; /* Centrer indhold lodret */
+    justify-content: center; /* Centrer indhold vandret */
+    text-decoration: none; /* Fjern understregning fra links */
+}
+
+/* Hover-effekt for begge knapper */
+.sidebar .btn-danger:hover,
+.sidebar .btn-success:hover {
+    background-color: #007bff; /* Solid blå baggrund ved hover */
+    color: #ffffff; /* Hvid tekst ved hover */
+    transform: translateY(-2px); /* Løft knappen lidt ved hover */
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3); /* Blå skygge ved hover */
+}
+
+/* Stil for ikon inde i knapperne */
+.sidebar .btn-danger i,
+.sidebar .btn-success i {
+    margin-right: 8px; /* Afstand mellem ikon og tekst */
+    color: inherit; /* Arv farve fra knappen (blå eller hvid) */
+}
+
+/* Stil for ikon inde i knappen */
+.sidebar .btn-danger i {
+    margin-right: 8px; /* Afstand mellem ikon og tekst */
+    color: inherit; /* Arv farve fra knappen (blå eller hvid) */
+}
+.sidebar .mt-auto {
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(5px);
+    padding-bottom: 1rem;
+}
+
+.sidebar .text-muted {
+    font-size: 0.9rem;
+}
+
+
+.sidebar .mt-auto {
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(5px);
+}
+/* Sidebar Footer */
+.sidebar-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #ddd;
+    text-align: center;
+}
+
+.sidebar-footer p {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+.sidebar-footer .btn {
+    width: 80%;
+    margin: 0 auto;
+}
 
 /* Indentation for sub-sections */
 .nav.flex-column .nav-link {
@@ -298,4 +372,20 @@ footer a:hover {
     border-width: 5px;
     border-style: solid;
     border-color: #333 transparent transparent transparent;
+}
+
+video {
+    pointer-events: none; /* Deaktiver museeffekter */
+    user-select: none; /* Forhindr tekstmarkering */
+    -webkit-user-select: none; /* Forhindr tekstmarkering i Safari */
+    -moz-user-select: none; /* Forhindr tekstmarkering i Firefox */
+    -ms-user-select: none; /* Forhindr tekstmarkering i IE/Edge */
+}
+
+video::-webkit-media-controls {
+    display: none !important; /* Skjul kontroller i Chrome/Safari */
+}
+
+video::-webkit-media-controls-enclosure {
+    display: none !important; /* Skjul kontroller i Chrome/Safari */
 }

@@ -161,3 +161,13 @@ Du kan oprette tooltips og textbokse over tekst for at give ekstra information, 
 </span>
 ```
 Denne kode viser en textbox, når du holder musen over udtrykket.
+
+
+### Main
+
+Det er lidt sævrt at lave manim objekter... fordi man skal lave en video og alt muligt. men man kan gøre videoen med 
+
+```bash
+python -m manim animations/manimtest.py IntegrateOverSphere -pqh
+```
+
