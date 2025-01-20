@@ -6,6 +6,10 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/funktioner')
+def funktioner():
+    return render_template('funktioner.html')
+
 @app.route('/integraler')
 def integraler():
     return render_template('integraler.html')
@@ -25,6 +29,8 @@ def probability_intro():
 @app.route('/normalfordelingen')
 def normalfordelingen():
     return render_template('normalfordelingen.html')
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

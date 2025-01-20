@@ -299,3 +299,20 @@ footer a:hover {
     border-style: solid;
     border-color: #333 transparent transparent transparent;
 }
+
+
+video {
+    pointer-events: none; /* Deaktiver museeffekter */
+    user-select: none; /* Forhindr tekstmarkering */
+    -webkit-user-select: none; /* Forhindr tekstmarkering i Safari */
+    -moz-user-select: none; /* Forhindr tekstmarkering i Firefox */
+    -ms-user-select: none; /* Forhindr tekstmarkering i IE/Edge */
+}
+
+video::-webkit-media-controls {
+    display: none !important; /* Skjul kontroller i Chrome/Safari */
+}
+
+video::-webkit-media-controls-enclosure {
+    display: none !important; /* Skjul kontroller i Chrome/Safari */
+}
