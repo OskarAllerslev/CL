@@ -1,56 +1,121 @@
 from manim import *
+import numpy as np
 
-class ParallelAxesMappingImproved(Scene):
+class ParallelAxesSameHeightDifferentScale(Scene):
     def construct(self):
-        # Juster kameraets ramme
-        self.camera.frame_width = 16  # Bredere ramme
-        self.camera.frame_height = 20 # Højere ramme
+        # ----------------------------------------------------------------------
+        # 1) Kamera-indstillinger: så vi har plads til akserne og ticks.
+        #    (Hvis 'self.camera.frame.set(...)' ikke virker i din version,
+        #     kan du bruge self.camera.frame_width og self.camera.frame_height)
+        # ----------------------------------------------------------------------
+        self.camera.frame_width = 16
+        self.camera.frame_height = 12
         self.camera.frame_center = ORIGIN
 
-        # Lodret "x-linje" til venstre: fra y=-3 til y=5
+        # ----------------------------------------------------------------------
+        # 2) Definér data-intervaller for venstre og højre akse.
+        #    Venstre akse:  data fra -3 til  5
+        #    Højre akse:    data fra -3 til 10
+        #
+        #    Visuelt vil begge akser dog kun fylde "scene-intervallet" -3 til +5
+        #    i den lodrette retning. Så er de lige høje.
+        # ----------------------------------------------------------------------
+        left_data_min, left_data_max   = -3, 5
+        right_data_min, right_data_max = -3, 10
+
+        # Scene-interval (lodret) for BEGGE akser skal være ens,
+        # så de bliver samme højde.
+        scene_min, scene_max = -3, 5  # 8 "scene-enheder" i højden
+
+        # Hjælpefunktion: lineær omskalering fra [A,B] -> [C,D]
+        def map_range(value, data_min, data_max, scene_min, scene_max):
+            """Lineært "map" value fra data-intervallet [data_min, data_max]
+            til scene-intervallet [scene_min, scene_max]."""
+            proportion = (value - data_min) / (data_max - data_min)
+            return scene_min + proportion * (scene_max - scene_min)
+
+        # ----------------------------------------------------------------------
+        # 3) Tegn venstre akse (for x) og højre akse (for y) med samme fysiske højde
+        # ----------------------------------------------------------------------
+        # Venstre akse: i x = -6, fra scene_min til scene_max
         left_axis = Arrow(
-            start= [-6, -3, 0],
-            end=   [-6, 5, 0],
+            start=[-6, scene_min, 0],
+            end=[-6, scene_max, 0],
             buff=0,
-            color=WHITE,
-            stroke_width=2
+            color=WHITE
         )
         left_label = MathTex("x").next_to(left_axis.get_end(), UP, buff=0.2)
 
-        # Lodret "y-linje" til højre: fra y=-3 til y=15
+        # Højre akse: i x = +6, også fra scene_min til scene_max
         right_axis = Arrow(
-            start= [6, -3, 0],
-            end=   [6, 15, 0],
+            start=[6, scene_min, 0],
+            end=[6, scene_max, 0],
             buff=0,
-            color=WHITE,
-            stroke_width=2
+            color=WHITE
         )
         right_label = MathTex("y").next_to(right_axis.get_end(), UP, buff=0.2)
 
         self.play(
-            Create(left_axis), 
+            Create(left_axis),
             Create(right_axis),
             Write(left_label),
             Write(right_label),
             run_time=2
         )
 
-        # Forbedrede ticks på y-aksen
-        def create_ticks(axis_x, y_start, y_end, step, direction):
+        # ----------------------------------------------------------------------
+        # 4) Lav tick-marks til hver akse
+        # ----------------------------------------------------------------------
+        def create_vertical_ticks(
+            x_coord,           # hvor aksen er placeret (typisk -6 eller +6)
+            data_min, data_max,
+            scene_min, scene_max,
+            step=1,
+            label_side=LEFT
+        ):
+            """Laver et sæt af lineære tick-marks i data-intervallet [data_min, data_max].
+               De placeres dog i scene-intervallet [scene_min, scene_max].
+               step er afstanden i data-enheder mellem ticks."""
             ticks = VGroup()
-            for y in np.arange(y_start, y_end + step, step):
+            for val in range(data_min, data_max+1, step):
+                # 4a) Find scene-koordinat for val
+                scene_y = map_range(val, data_min, data_max, scene_min, scene_max)
+
+                # 4b) Selve tick-stregen
                 tick = Line(
-                    start=[axis_x - 0.2, y, 0],
-                    end=[axis_x + 0.2, y, 0],
+                    start=[x_coord - 0.2, scene_y, 0],
+                    end=[x_coord + 0.2, scene_y, 0],
                     color=WHITE,
                     stroke_width=1
                 )
-                label = MathTex(str(int(y))).scale(0.5).next_to(tick, direction, buff=0.1)
+                # 4c) Label
+                label = MathTex(str(val)).scale(0.5)
+                label.next_to(tick, label_side, buff=0.1)
+
                 ticks.add(tick, label)
             return ticks
 
-        left_ticks = create_ticks(-6, -2, 4, 1, LEFT)
-        right_ticks = create_ticks(6, -2, 14, 2, RIGHT)  # Ticks hver 2. enhed
+        # Venstre akse: ticks for x = -3..5, i trin på 1
+        left_ticks = create_vertical_ticks(
+            x_coord=-6,
+            data_min=left_data_min,
+            data_max=left_data_max,
+            scene_min=scene_min,
+            scene_max=scene_max,
+            step=1,
+            label_side=LEFT
+        )
+
+        # Højre akse: ticks for y = -3..10, i trin på 1
+        right_ticks = create_vertical_ticks(
+            x_coord=6,
+            data_min=right_data_min,
+            data_max=right_data_max,
+            scene_min=scene_min,
+            scene_max=scene_max,
+            step=1,
+            label_side=RIGHT
+        )
 
         self.play(
             Create(left_ticks, lag_ratio=0.1),
@@ -58,48 +123,45 @@ class ParallelAxesMappingImproved(Scene):
             run_time=2
         )
 
-        # Funktionstekst i midten
-        func_text = MathTex("").scale(1.2).move_to([0,3,0])
-        self.add(func_text)
+        # ----------------------------------------------------------------------
+        # 5) Funktionstekst i midten
+        # ----------------------------------------------------------------------
+        func_text = MathTex("").scale(1.2).move_to([0,0,0])  # centralt
+        self.add(func_text)  # Et tomt MathTex, som vi kan udskifte undervejs
 
-        # Ticks på venstre "x-linje"
-        left_ticks = VGroup()
-        for val in range(-2, 5):
-            tick_length = 0.15
-            tick_start = np.array([-5 - tick_length, val, 0])
-            tick_end   = np.array([-5 + tick_length, val, 0])
-            tick = Line(tick_start, tick_end, color=WHITE)
-            label = MathTex(str(val)).scale(0.5).next_to(tick, LEFT, buff=0.1)
-            if val != 4:
-                left_ticks.add(tick, label)
-
-        # Ticks på højre "y-linje"
-        right_ticks = VGroup()
-        for val in range(-2, 11):
-            tick_length = 0.15
-            tick_start = np.array([5 - tick_length, val, 0])
-            tick_end   = np.array([5 + tick_length, val, 0])
-            tick = Line(tick_start, tick_end, color=WHITE)
-            label = MathTex(str(val)).scale(0.5).next_to(tick, RIGHT, buff=0.1)
-            if val != 10:
-                right_ticks.add(tick, label)
-
-        self.play(Create(left_ticks), Create(right_ticks))
-
+        # ----------------------------------------------------------------------
+        # 6) Vi vil vise x -> f(x) for x=1,3,-1 og for tre funktioner
+        # ----------------------------------------------------------------------
         x_vals = [1, 3, -1]
         functions = [
-            (lambda x: x,        "f(x) = x",      BLUE),
-            (lambda x: x**2,     "g(x) = x^2",    YELLOW),
-            (lambda x: 2*x - 1,  "h(x) = 2x - 1", GREEN),
+            (lambda x: x,      "f(x) = x",    BLUE),
+            (lambda x: np.log(x+2)+1,   "g(x) = log(x+2)+1",  YELLOW),
+            (lambda x: 2*x-1,  "h(x) = 2x - 1", GREEN),
         ]
 
+        # Hjælpefunktioner til at placere punkter på hver akse
+        # Bemærk, at vi nu oversætter x_value og y_value fra "data" til "scene".
         def left_line_point(x_value):
-            return [-5, x_value, 0]
+            # Placeres ved x=-6, men scene_y findes via map_range
+            scene_y = map_range(
+                x_value, left_data_min, left_data_max,
+                scene_min, scene_max
+            )
+            return np.array([-6, scene_y, 0])
 
         def right_line_point(y_value):
-            return [5, y_value, 0]
+            # Placeres ved x=+6, men scene_y findes via map_range
+            scene_y = map_range(
+                y_value, right_data_min, right_data_max,
+                scene_min, scene_max
+            )
+            return np.array([6, scene_y, 0])
 
+        # ----------------------------------------------------------------------
+        # 7) Gå igennem funktioner og x‐værdier, og animer
+        # ----------------------------------------------------------------------
         for func, label_str, color in functions:
+            # Skift funktionstekst
             new_text = MathTex(label_str).scale(1.2).set_color(color)
             new_text.move_to(func_text.get_center())
             self.play(Transform(func_text, new_text))
@@ -107,6 +169,7 @@ class ParallelAxesMappingImproved(Scene):
 
             for x_val in x_vals:
                 y_val = func(x_val)
+
                 x_dot = Dot(left_line_point(x_val), color=color)
                 x_label_num = MathTex(str(x_val)).scale(0.7)
                 x_label_num.next_to(x_dot, LEFT, buff=0.15)
@@ -115,17 +178,20 @@ class ParallelAxesMappingImproved(Scene):
                 y_label_num = MathTex(str(y_val)).scale(0.7)
                 y_label_num.next_to(y_dot, RIGHT, buff=0.15)
 
+                # Buet pil fra x_dot til y_dot
                 arrow = CurvedArrow(
                     start_point=x_dot.get_center(),
                     end_point=y_dot.get_center(),
                     color=color,
-                    angle=-TAU/4
+                    angle=-TAU/4  # let bue nedad
                 )
 
+                # Animer
                 self.play(FadeIn(x_dot), Write(x_label_num))
                 self.play(Create(arrow), FadeIn(y_dot), Write(y_label_num))
                 self.wait(0.5)
 
+                # Ryd op igen
                 self.play(
                     FadeOut(arrow),
                     FadeOut(x_dot), FadeOut(x_label_num),

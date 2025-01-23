@@ -26,121 +26,129 @@
             <div class="card-body">
                 <h5 class="card-title">Illustration af en afbildning</h5>
                 <div class="video">
-                    <video autoplay loop muted style ="width: 100%"; height: auto; border-radius: 15px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
-                        <source src="{{ url_for('static', filename='animations/ParallelAxesMappingImproved.mp4') }}" type="video/mp4">
+                    <video autoplay loop muted style ="width: 100%; height: auto; border-radius: 15px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+                        <source src="{{ url_for('static', filename='animations/ParallelAxesSameHeightDifferentScale.mp4') }}" type="video/mp4">
                         Din browser understøtter ikke video-tagget.
                 </div>
         </div>
-        <!-- Eksempel på en simpel funktion -->
-        <div class="card card-example mb-3 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">Eksempel 1: Lineær funktion</h5>
-                <p class="card-text">
-                    En lineær funktion har formen:
-                    \[
-                    f(x) = ax + b
-                    \]
-                    hvor \( a \) og \( b \) er konstanter. For eksempel:
-                    \[
-                    f(x) = 2x + 3
-                    \]
-                    Her er \( a = 2 \) og \( b = 3 \).
-                </p>
-            </div>
-        </div>
+</div>
 
-        <!-- Lette opgaver -->
-        <div class="card card-example mb-3 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">Lette Opgaver</h5>
-                <p class="card-text">
-                    <strong>Opgave 1:</strong> Givet funktionen \( f(x) = 3x - 2 \), find \( f(4) \).
-                </p>
-                <button type="button" class="btn btn-primary" onclick="toggleSolution('let-opgave-1')">Vis løsning</button>
-                <div id="let-opgave-1" class="mt-3" style="display: none;">
-                    <!-- Løsningen vises her -->
-                </div>
 
-                <p class="card-text mt-3">
-                    <strong>Opgave 2:</strong> Givet funktionen \( f(x) = x^2 + 2x + 1 \), find \( f(3) \).
-                </p>
-                <button type="button" class="btn btn-primary" onclick="toggleSolution('let-opgave-2')">Vis løsning</button>
-                <div id="let-opgave-2" class="mt-3" style="display: none;">
-                    <!-- Løsningen vises her -->
-                </div>
 
-                <p class="card-text mt-3">
-                    <strong>Opgave 3:</strong> Givet funktionen \( f(x) = \frac{1}{x} \), find \( f(2) \).
-                </p>
-                <button type="button" class="btn btn-primary" onclick="toggleSolution('let-opgave-3')">Vis løsning</button>
-                <div id="let-opgave-3" class="mt-3" style="display: none;">
-                    <!-- Løsningen vises her -->
-                </div>
-            </div>
-        </div>
 
-        <!-- Svære opgaver -->
-        <div class="card card-example mb-3 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">Svære Opgaver</h5>
-                <p class="card-text">
-                    <strong>Opgave 1:</strong> Givet funktionen \( f(x) = e^x \), find \( f'(x) \).
-                </p>
-                <button type="button" class="btn btn-primary" onclick="toggleSolution('svaer-opgave-1')">Vis løsning</button>
-                <div id="svaer-opgave-1" class="mt-3" style="display: none;">
-                    <!-- Løsningen vises her -->
-                </div>
 
-                <p class="card-text mt-3">
-                    <strong>Opgave 2:</strong> Givet funktionen \( f(x) = \ln(x) \), find \( f'(x) \).
-                </p>
-                <button type="button" class="btn btn-primary" onclick="toggleSolution('svaer-opgave-2')">Vis løsning</button>
-                <div id="svaer-opgave-2" class="mt-3" style="display: none;">
-                    <!-- Løsningen vises her -->
-                </div>
-
-                <p class="card-text mt-3">
-                    <strong>Opgave 3:</strong> Givet funktionen \( f(x) = \sin(x) \), find \( f'(x) \).
-                </p>
-                <button type="button" class="btn btn-primary" onclick="toggleSolution('svaer-opgave-3')">Vis løsning</button>
-                <div id="svaer-opgave-3" class="mt-3" style="display: none;">
-                    <!-- Løsningen vises her -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Meget svære opgaver -->
-        <div class="card card-example shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">Meget Svære Opgaver</h5>
-                <p class="card-text">
-                    <strong>Opgave 1:</strong> Givet funktionen \( f(x) = x^3 + 2x^2 + x \), find \( \int f(x) \, dx \).
-                </p>
-                <button type="button" class="btn btn-primary" onclick="toggleSolution('meget-svaer-opgave-1')">Vis løsning</button>
-                <div id="meget-svaer-opgave-1" class="mt-3" style="display: none;">
-                    <!-- Løsningen vises her -->
-                </div>
-
-                <p class="card-text mt-3">
-                    <strong>Opgave 2:</strong> Givet funktionen \( f(x) = \frac{1}{x^2} \), find \( \int f(x) \, dx \).
-                </p>
-                <button type="button" class="btn btn-primary" onclick="toggleSolution('meget-svaer-opgave-2')">Vis løsning</button>
-                <div id="meget-svaer-opgave-2" class="mt-3" style="display: none;">
-                    <!-- Løsningen vises her -->
-                </div>
-
-                <p class="card-text mt-3">
-                    <strong>Opgave 3:</strong> Givet funktionen \( f(x) = \cos(x) \), find \( \int f(x) \, dx \).
-                </p>
-                <button type="button" class="btn btn-primary" onclick="toggleSolution('meget-svaer-opgave-3')">Vis løsning</button>
-                <div id="meget-svaer-opgave-3" class="mt-3" style="display: none;">
-                    <!-- Løsningen vises her -->
-                </div>
-            </div>
-        </div>
-
+<!-- Eksempel på en simpel funktion -->
+<div class="card card-example mb-3 shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">Eksempel 1: Lineær funktion</h5>
+        <p class="card-text">
+            En lineær funktion har formen:
+            \[
+            f(x) = ax + b
+            \]
+            hvor \( a \) og \( b \) er konstanter. For eksempel:
+            \[
+            f(x) = 2x + 3
+            \]
+            Her er \( a = 2 \) og \( b = 3 \).
+        </p>
     </div>
 </div>
+<p>
+    Nu kan vi se på nogle opgaver.
+</p>
+
+ <!-- Lette opgaver -->
+ <div class="card card-example mb-3 shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">Lette Opgaver</h5>
+        <p class="card-text">
+            <strong>Opgave 1:</strong> Givet funktionen \( f(x) = 3x - 2 \), find \( f(4) \).
+        </p>
+        <button type="button" class="btn btn-primary" onclick="toggleSolution('let-opgave-1')">Vis løsning</button>
+        <div id="let-opgave-1" class="mt-3" style="display: none;">
+            <!-- Løsningen vises her -->
+        </div>
+
+        <p class="card-text mt-3">
+            <strong>Opgave 2:</strong> Givet funktionen \( f(x) = x^2 + 2x + 1 \), find \( f(3) \).
+        </p>
+        <button type="button" class="btn btn-primary" onclick="toggleSolution('let-opgave-2')">Vis løsning</button>
+        <div id="let-opgave-2" class="mt-3" style="display: none;">
+            <!-- Løsningen vises her -->
+        </div>
+
+        <p class="card-text mt-3">
+            <strong>Opgave 3:</strong> Givet funktionen \( f(x) = \frac{1}{x} \), find \( f(2) \).
+        </p>
+        <button type="button" class="btn btn-primary" onclick="toggleSolution('let-opgave-3')">Vis løsning</button>
+        <div id="let-opgave-3" class="mt-3" style="display: none;">
+            <!-- Løsningen vises her -->
+        </div>
+    </div>
+</div>
+
+<!-- Svære opgaver -->
+<div class="card card-example mb-3 shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">Svære Opgaver</h5>
+        <p class="card-text">
+            <strong>Opgave 1:</strong> Givet funktionen \( f(x) = e^x \), find \( f'(x) \).
+        </p>
+        <button type="button" class="btn btn-primary" onclick="toggleSolution('svaer-opgave-1')">Vis løsning</button>
+        <div id="svaer-opgave-1" class="mt-3" style="display: none;">
+            <!-- Løsningen vises her -->
+        </div>
+
+        <p class="card-text mt-3">
+            <strong>Opgave 2:</strong> Givet funktionen \( f(x) = \ln(x) \), find \( f'(x) \).
+        </p>
+        <button type="button" class="btn btn-primary" onclick="toggleSolution('svaer-opgave-2')">Vis løsning</button>
+        <div id="svaer-opgave-2" class="mt-3" style="display: none;">
+            <!-- Løsningen vises her -->
+        </div>
+
+        <p class="card-text mt-3">
+            <strong>Opgave 3:</strong> Givet funktionen \( f(x) = \sin(x) \), find \( f'(x) \).
+        </p>
+        <button type="button" class="btn btn-primary" onclick="toggleSolution('svaer-opgave-3')">Vis løsning</button>
+        <div id="svaer-opgave-3" class="mt-3" style="display: none;">
+            <!-- Løsningen vises her -->
+        </div>
+    </div>
+</div>
+
+<!-- Meget svære opgaver -->
+<div class="card card-example shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">Meget Svære Opgaver</h5>
+        <p class="card-text">
+            <strong>Opgave 1:</strong> Givet funktionen \( f(x) = x^3 + 2x^2 + x \), find \( \int f(x) \, dx \).
+        </p>
+        <button type="button" class="btn btn-primary" onclick="toggleSolution('meget-svaer-opgave-1')">Vis løsning</button>
+        <div id="meget-svaer-opgave-1" class="mt-3" style="display: none;">
+            <!-- Løsningen vises her -->
+        </div>
+
+        <p class="card-text mt-3">
+            <strong>Opgave 2:</strong> Givet funktionen \( f(x) = \frac{1}{x^2} \), find \( \int f(x) \, dx \).
+        </p>
+        <button type="button" class="btn btn-primary" onclick="toggleSolution('meget-svaer-opgave-2')">Vis løsning</button>
+        <div id="meget-svaer-opgave-2" class="mt-3" style="display: none;">
+            <!-- Løsningen vises her -->
+        </div>
+
+        <p class="card-text mt-3">
+            <strong>Opgave 3:</strong> Givet funktionen \( f(x) = \cos(x) \), find \( \int f(x) \, dx \).
+        </p>
+        <button type="button" class="btn btn-primary" onclick="toggleSolution('meget-svaer-opgave-3')">Vis løsning</button>
+        <div id="meget-svaer-opgave-3" class="mt-3" style="display: none;">
+            <!-- Løsningen vises her -->
+        </div>
+    </div>
+</div>
+
+
 
 <!-- Script til at vise/skjule løsninger -->
 <script>
