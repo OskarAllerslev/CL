@@ -33,6 +33,13 @@ class Bruger(UserMixin, db.Model):
     brugernavn = db.Column(db.String(200), unique=True, nullable=False)
     adgangskode = db.Column(db.String(200), nullable=False)
     rolle = db.Column(db.String(20), nullable=False)
+    laerer_id = db.Column(db.Integer, db.ForeignKey('brugere.id'))  # Foreign key
+    
+    # Korrekt konfiguration af relation
+    elever = db.relationship(
+        'Bruger', 
+        backref=db.backref('laerer', remote_side=[id])  # <-- Vigtigt: remote_side=[id]
+    )
 
     def set_adgangskode(self, adgangskode):
         self.adgangskode = generate_password_hash(adgangskode)
@@ -100,6 +107,12 @@ def logout():
     flash('Du er nu logget ud!', 'success')
     return redirect(url_for('login'))
 
+
+@app.route('/check')
+def check():
+    gyldige = GyldigtBrugernavn.query.all()
+    return f"Gyldige brugernavne: {[g.brugernavn for g in gyldige]}"
+
 @app.route('/opret-bruger', methods=['GET', 'POST'])
 def opret_bruger():
     if request.method == 'POST':
@@ -109,6 +122,7 @@ def opret_bruger():
 
         # Tjek om brugernavnet er gyldigt
         gyldigt_brugernavn = GyldigtBrugernavn.query.filter_by(brugernavn=brugernavn).first()
+        print(f"[DEBUG] Søger efter gyldigt brugernavn: {brugernavn}. Fundet: {gyldigt_brugernavn}")
         if not gyldigt_brugernavn:
             flash('Ugyldigt brugernavn. Kontakt administratoren for at få adgang.', 'danger')
             return redirect(url_for('opret_bruger'))
@@ -129,6 +143,54 @@ def opret_bruger():
         return redirect(url_for('login'))
 
     return render_template('opret_bruger.html')
+
+from sqlalchemy.orm import joinedload  # Tilføj denne import
+
+@app.route('/laerer-dashboard', methods=['GET', 'POST'])
+@login_required
+def laerer_dashboard():
+    if current_user.rolle != 'lærer':
+        flash("Adgang nægtet: Kun for lærere", 'danger')
+        return redirect(url_for('index'))
+    
+    search_query = request.args.get('search', '')
+    query = Bruger.query.filter_by(rolle='elev').options(joinedload(Bruger.laerer))
+    
+    if search_query:
+        query = query.filter(Bruger.brugernavn.ilike(f'%{search_query}%'))
+    
+    elever = query.all()
+    return render_template('laerer_dashboard.html', elever=elever, search_query=search_query)
+
+@app.route('/tilknyt-laerer/<int:elev_id>', methods=['POST'])
+@login_required
+def tilknyt_laerer(elev_id):
+    if current_user.rolle != 'lærer':
+        flash("Adgang nægtet", 'danger')
+        return redirect(url_for('index'))
+    
+    elev = Bruger.query.get_or_404(elev_id)
+    elev.laerer_id = current_user.id
+    db.session.commit()
+    flash(f'{elev.brugernavn} er nu tilknyttet dig!', 'success')
+    return redirect(url_for('laerer_dashboard'))
+
+@app.route('/fjern-tilknytning/<int:elev_id>', methods=['POST'])
+@login_required
+def fjern_tilknytning(elev_id):
+    if current_user.rolle != 'lærer':
+        flash("Adgang nægtet", 'danger')
+        return redirect(url_for('index'))
+    
+    elev = Bruger.query.get_or_404(elev_id)
+    if elev.laerer_id == current_user.id:
+        elev.laerer_id = None
+        db.session.commit()
+        flash(f'Tilknytning til {elev.brugernavn} fjernet!', 'success')
+    else:
+        flash('Du kan kun fjerne dine egne elever', 'warning')
+    
+    return redirect(url_for('laerer_dashboard'))
 
 @app.route('/funktioner')
 @login_required
@@ -164,25 +226,10 @@ def probability_intro():
 def normalfordelingen():
     return render_template('normalfordelingen.html')
 
+
+
 # ------------------------------------------------------
 # 6) Automatisk oprettelse af database + testbruger
 # ------------------------------------------------------
 if __name__ == '__main__':
-    # 1) Opret databasen/tabellerne
-    with app.app_context():
-        db.create_all()
-        print("[INFO] db.create_all() udført – 'database.db' er (gen)oprettet.")
-
-        # 2) Opret en testbruger, hvis den ikke allerede findes
-        eksisterende_test = Bruger.query.filter_by(brugernavn='test').first()
-        if not eksisterende_test:
-            test_bruger = Bruger(brugernavn='test', rolle='elev')
-            test_bruger.set_adgangskode('test')
-            db.session.add(test_bruger)
-            db.session.commit()
-            print("[INFO] Testbruger 'test' oprettet med password 'test'.")
-        else:
-            print("[INFO] Testbruger 'test' findes allerede.")
-
-    # 3) Start Flask
     app.run(debug=True)

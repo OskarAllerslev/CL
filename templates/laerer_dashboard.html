@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h1>Lærerdashboard</h1>
+    
+    <!-- Søgefelt -->
+    <form method="GET" action="{{ url_for('laerer_dashboard') }}" class="mb-4">
+        <div class="input-group">
+            <input type="text" class="form-control" name="search" 
+                   placeholder="Søg efter elever..." value="{{ search_query }}">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </form>
+
+    <!-- Elevtabel -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Brugernavn</th>
+                <th>Nuværende lærer</th>
+                <th>Handlinger</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for elev in elever %}
+            <tr>
+                <td>{{ elev.brugernavn }}</td>
+                <td>
+                    {% if elev.laerer %}
+                        {{ elev.laerer.brugernavn }} (Lærer-ID: {{ elev.laerer.id }})
+                    {% else %}
+                        Ingen lærer
+                    {% endif %}
+                </td>
+                <td>
+                    {% if elev.laerer_id == current_user.id %}
+                        <form method="POST" action="{{ url_for('fjern_tilknytning', elev_id=elev.id) }}" class="d-inline">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fas fa-unlink"></i> Fjern
+                            </button>
+                        </form>
+                    {% else %}
+                        <form method="POST" action="{{ url_for('tilknyt_laerer', elev_id=elev.id) }}" class="d-inline">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fas fa-link"></i> Tilknyt
+                            </button>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</div>
+{% endblock %}
