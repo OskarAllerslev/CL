@@ -93,6 +93,14 @@
                         </ul>
                     </div>
 
+                    {% if current_user.is_authenticated and current_user.rolle == 'lærer' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('laerer_dashboard') }}">
+                            <i class="fas fa-chalkboard-teacher me-2"></i>Lærerdashboard
+                        </a>
+                    </li>
+                    {% endif %}
+
                     <!-- Log ud / Log ind-sektion -->
                     {% if current_user.is_authenticated %}
                     <div class="mt-auto border-top pt-3">
