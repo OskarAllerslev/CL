@@ -30,12 +30,18 @@
                         <source src="{{ url_for('static', filename='animations/ParallelAxesSameHeightDifferentScale.mp4') }}" type="video/mp4">
                         Din browser understøtter ikke video-tagget.
                 </div>
+                <p class="card-text">
+                    Det vi ser her er altså tre funktioner \( f(x) = x\), \( g(x) = 2x \) og \( h(x) = 3x \). Vi ser at de alle tager et tal \( x \) og sender det over i et andet tal \( y \). Det er simpelthen det en funktion gør.
+                    Det er meget vigtigt at forstå dette koncept, da det er fundamentalt for at forstå matematik. Brug gerne lidt tid på at kigge på videoen og forstå hvad der sker. 
+                    Normalt når du ser en funktion i geogebra eller lignende, så er det netop dette der sker, men der ser man det ofte hvor de to akser står vinkelret på hinanden i 
+                    <span class = "textbox"> origo <span class="textbox box"> Altså punktet \( (0,0) \)</span>  </span> er mængden af alle reelle tal, altså alle tal vi kender fra hverdagen. </span> </span> 
+                </p>
         </div>
 </div>
 
 
-
-
+Der er mange former for funktioner, nogle giver vi navne, fordi så er det nemt at snakke med andre om hvilken funktion vi snakker om. Det er altså belejligt for os at kalde en vis klasse af funktioner for noget specifikt. 
+Det leder os til en af de mest fundamentale funktioner, nemlig den lineære funktion.
 
 <!-- Eksempel på en simpel funktion -->
 <div class="card card-example mb-3 shadow-sm">
@@ -55,7 +61,7 @@
     </div>
 </div>
 <p>
-    Nu kan vi se på nogle opgaver.
+    Nu kan vi se på nogle opgaver, da man lærer bedst ved at prøve selv.
 </p>
 
  <!-- Lette opgaver -->
@@ -71,7 +77,7 @@
         </div>
 
         <p class="card-text mt-3">
-            <strong>Opgave 2:</strong> Givet funktionen \( f(x) = x^2 + 2x + 1 \), find \( f(3) \).
+            <strong>Opgave 2:</strong> Givet samme funktion som i opgave 1, find \( x \) når \( f(x) = 4 \). Du skal altså løse en ligning. 
         </p>
         <button type="button" class="btn btn-primary" onclick="toggleSolution('let-opgave-2')">Vis løsning</button>
         <div id="let-opgave-2" class="mt-3" style="display: none;">
@@ -79,7 +85,7 @@
         </div>
 
         <p class="card-text mt-3">
-            <strong>Opgave 3:</strong> Givet funktionen \( f(x) = \frac{1}{x} \), find \( f(2) \).
+            <strong>Opgave 3:</strong> Igen givet samme funktion som før, og den anden lineære funktion \( g(x) = 4x + 1 \), find det \( x \) hvor \( f(x) = g(x) \).
         </p>
         <button type="button" class="btn btn-primary" onclick="toggleSolution('let-opgave-3')">Vis løsning</button>
         <div id="let-opgave-3" class="mt-3" style="display: none;">
@@ -88,65 +94,6 @@
     </div>
 </div>
 
-<!-- Svære opgaver -->
-<div class="card card-example mb-3 shadow-sm">
-    <div class="card-body">
-        <h5 class="card-title">Svære Opgaver</h5>
-        <p class="card-text">
-            <strong>Opgave 1:</strong> Givet funktionen \( f(x) = e^x \), find \( f'(x) \).
-        </p>
-        <button type="button" class="btn btn-primary" onclick="toggleSolution('svaer-opgave-1')">Vis løsning</button>
-        <div id="svaer-opgave-1" class="mt-3" style="display: none;">
-            <!-- Løsningen vises her -->
-        </div>
-
-        <p class="card-text mt-3">
-            <strong>Opgave 2:</strong> Givet funktionen \( f(x) = \ln(x) \), find \( f'(x) \).
-        </p>
-        <button type="button" class="btn btn-primary" onclick="toggleSolution('svaer-opgave-2')">Vis løsning</button>
-        <div id="svaer-opgave-2" class="mt-3" style="display: none;">
-            <!-- Løsningen vises her -->
-        </div>
-
-        <p class="card-text mt-3">
-            <strong>Opgave 3:</strong> Givet funktionen \( f(x) = \sin(x) \), find \( f'(x) \).
-        </p>
-        <button type="button" class="btn btn-primary" onclick="toggleSolution('svaer-opgave-3')">Vis løsning</button>
-        <div id="svaer-opgave-3" class="mt-3" style="display: none;">
-            <!-- Løsningen vises her -->
-        </div>
-    </div>
-</div>
-
-<!-- Meget svære opgaver -->
-<div class="card card-example shadow-sm">
-    <div class="card-body">
-        <h5 class="card-title">Meget Svære Opgaver</h5>
-        <p class="card-text">
-            <strong>Opgave 1:</strong> Givet funktionen \( f(x) = x^3 + 2x^2 + x \), find \( \int f(x) \, dx \).
-        </p>
-        <button type="button" class="btn btn-primary" onclick="toggleSolution('meget-svaer-opgave-1')">Vis løsning</button>
-        <div id="meget-svaer-opgave-1" class="mt-3" style="display: none;">
-            <!-- Løsningen vises her -->
-        </div>
-
-        <p class="card-text mt-3">
-            <strong>Opgave 2:</strong> Givet funktionen \( f(x) = \frac{1}{x^2} \), find \( \int f(x) \, dx \).
-        </p>
-        <button type="button" class="btn btn-primary" onclick="toggleSolution('meget-svaer-opgave-2')">Vis løsning</button>
-        <div id="meget-svaer-opgave-2" class="mt-3" style="display: none;">
-            <!-- Løsningen vises her -->
-        </div>
-
-        <p class="card-text mt-3">
-            <strong>Opgave 3:</strong> Givet funktionen \( f(x) = \cos(x) \), find \( \int f(x) \, dx \).
-        </p>
-        <button type="button" class="btn btn-primary" onclick="toggleSolution('meget-svaer-opgave-3')">Vis løsning</button>
-        <div id="meget-svaer-opgave-3" class="mt-3" style="display: none;">
-            <!-- Løsningen vises her -->
-        </div>
-    </div>
-</div>
 
 
 
@@ -164,23 +111,32 @@
             switch (id) {
                 case 'let-opgave-1':
                     solution = `
-                        \[
-                        f(4) = 3 \cdot 4 - 2 = 10
-                        \]
-                    `;
+                            \\begin{align*}
+                            f(4) &= 3 \\cdot 4 - 2 \\\\
+                            &= 12 - 2 \\\\
+                            &= 10
+                            \\end{align*}
+                        `;
                     break;
                 case 'let-opgave-2':
                     solution = `
-                        \[
-                        f(3) = 3^2 + 2 \cdot 3 + 1 = 16
-                        \]
-                    `;
+                            \\begin{align*}
+                            f(x) &= 4 \\\\
+                             3x-2 &= 4 \\\\
+                                3x &= 6 \\\\
+                                x &= 2
+                            \\end{align*}
+                        `;
                     break;
                 case 'let-opgave-3':
                     solution = `
-                        \[
-                        f(2) = \frac{1}{2}
-                        \]
+                        \\begin{align*}
+                        f(x) &= g(x) \\\\
+                        3x - 2 &= 4x + 1 \\\\
+                        3x &= 4x + 3 \\\\
+                        -x &= 3 \\\\
+                        x &= -3
+                        \\end{align*}
                     `;
                     break;
                 case 'svaer-opgave-1':
