@@ -67,7 +67,7 @@ Det leder os til en af de mest fundamentale funktioner, nemlig den lineære funk
  <!-- Lette opgaver -->
  <div class="card card-example mb-3 shadow-sm">
     <div class="card-body">
-        <h5 class="card-title">Lette Opgaver</h5>
+        <h5 class="card-title">Opgaver</h5>
         <p class="card-text">
             <strong>Opgave 1:</strong> Givet funktionen \( f(x) = 3x - 2 \), find \( f(4) \).
         </p>
@@ -93,6 +93,193 @@ Det leder os til en af de mest fundamentale funktioner, nemlig den lineære funk
         </div>
     </div>
 </div>
+
+Det er vigtigt at vide hvad en lineær funktion er. Men det er sådan set ikke super svært at finde ud af hvad funktioner hedder og kan bruges til, 
+hvis man blot har en intuitiv forståelse for hvad en funktion er. Årsagen til at vi skal være gode til at arbejde med funktioner, er at de dukker op hele tiden, og de er fundamentale for matematikken.
+
+<div class="card card-theorem mb-3 shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">Polynomium</h5>
+        <p class="card-text">
+            Et polynomium er en klasse af funktioner, der er summen af potenser af en variabel, ganget med konstanter. 
+            Klassen af polynomier af grad <span class ="textbox"> \( n \in \mathbb{N}_0 \) <span class="textbox box">dette betyder at \( n\) er et heltal, altså \(0,1,2,\ldots, \infty\) ,  </span></span> er givet ved:
+            \begin{align*}
+            \sum_{i=0}^n a_i x^i &= a_n x^n + a_{n-1} x^{n-1} + \ldots + a_1 x + a_0
+            \end{align*}
+            hvor \( a_i \) er konstanter og \( x \) er variablen.
+        </p>
+    </div>
+</div>
+Okay, det var en ordentlig mundfuld. Det er måske en god ide at læse ovenstående igennem en gang mere. Dernæst, lad os se på nogle eksempler, så det bliver lidt mere klart hvad et polynomium faktisk er.
+
+<div class="card card-example mb-3 shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">Eksempel 2: Polynomium</h5>
+        <p class="card-text">
+            Et eksempel på et polynomium er:
+            \[
+            f(x) = 3x^2 + 2x + 1
+            \]
+            Her er \( a_2 = 3 \), \( a_1 = 2 \) og \( a_0 = 1 \). Ofte, vil den repræsentation vi så i definitionen slet ikke være brugbar, men den hjælper til at forstå hvad et polynomium er for en størrelse.
+        </p>
+        <p class="card-text">
+            Et andet eksempel kunne være:
+            \[
+            g(x) = 59 x^{210} - 999 x^{42} + 42 x^2 + 1
+            \]
+            Her er \( a_{210} = 59 \), \( a_{42} = -999 \), \( a_2 = 42 \), \( a_0 = 1 \) og resten af \( a_i = 0\) for \( i \neq \{59, 42, 2, 0\} \).
+            Du vil i praksis, kun beskæftige dig med polynomier af lavere grad, da de højere graders polynomier ikke opstår så ofte og dertil er de faktisk også lidt besværlige at arbejde med.
+        </p>
+    </div>
+</div>
+Lad os igen kigge på nogle opgaver, da det er sådan man bedst lærer. 
+
+<!-- Almindelig quiz -->
+<div class="quiz-section mt-5">
+    <h2>Funktioner Quiz</h2>
+    <!-- VIGTIGT: form har unikt ID -->
+    <form id="quiz-form">
+        <!-- Spørgsmål 1 -->
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Spørgsmål 1</h5>
+                <p class="card-text">Hvad er graden af polynomiet \( f(x) = 3x^2 + 2x + 1 \)?</p>
+
+                <!-- VIGTIGT: 'name="q1_question1"' eller noget unikt -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="quiz1_question1" id="q1_option1" value="1">
+                    <label class="form-check-label" for="q1_option1">1</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="quiz1_question1" id="q1_option2" value="2">
+                    <label class="form-check-label" for="q1_option2">2</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="quiz1_question1" id="q1_option3" value="3">
+                    <label class="form-check-label" for="q1_option3">3</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="quiz1_question1" id="q1_option4" value="4">
+                    <label class="form-check-label" for="q1_option4">4</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spørgsmål 2 -->
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Spørgsmål 2</h5>
+                <p class="card-text">Hvad er koefficienten for \( x^2 \) i polynomiet \( g(x) = 59 x^{210} - 999 x^{42} + 42 x^2 + 1 \)?</p>
+
+                <!-- VIGTIGT: 'name="quiz1_question2"' -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="quiz1_question2" id="q2_option1" value="1">
+                    <label class="form-check-label" for="q2_option1">59</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="quiz1_question2" id="q2_option2" value="2">
+                    <label class="form-check-label" for="q2_option2">-999</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="quiz1_question2" id="q2_option3" value="3">
+                    <label class="form-check-label" for="q2_option3">42</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="quiz1_question2" id="q2_option4" value="4">
+                    <label class="form-check-label" for="q2_option4">1</label>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary" onclick="checkAnswers()">
+            Indsend svar
+        </button>
+    </form>
+
+    <!-- Resultat Section -->
+    <div id="quiz-result" class="mt-4" style="display: none;">
+        <h3>Quiz Resultat</h3>
+        <div class="alert alert-info">
+            Du fik <span id="score"></span> ud af <span id="total"></span> spørgsmål korrekt!
+        </div>
+        <button type="button" class="btn btn-secondary" onclick="resetQuiz()">
+            Prøv igen
+        </button>
+    </div>
+</div>
+
+
+    Hvis man er modig kan man prøve følgende spørgsmål, som godt kan forekomme lidt drilsk, så den giver også lidt ekstra points. 
+
+<!-- Anden quiz ("svær opgave") -->
+<div class="quiz-section mt-5">
+    <h2>Svær opgave</h2>
+    <!-- VIGTIGT: form har et andet ID -->
+    <form id="quiz-form-hard">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Spørgsmål 1</h5>
+                <p class="card-text">
+                    Givet \( f(x) = 2x^3 - 5x^2 + 3x \) og \( g(x) = x \), 
+                    find da løsninger 
+                    <span class="textbox">
+                        \( x \in \mathbb{R}_+ \setminus \{0\} \)
+                        <span class="textbox box">
+                            Her menes altså, at du skal finde de strengt positive
+                            løsninger, men ikke \( x = 0 \).
+                        </span>
+                    </span> 
+                    hvor \( f(x) = g(x) \)?
+                </p>
+                
+                <!-- VIGTIGT: name="hardQuestion1" i stedet for question1 -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="hardQuestion1" id="hard_q1_option1" value="1">
+                    <label class="form-check-label" for="hard_q1_option1">\( 2\) & \( 4 \)</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="hardQuestion1" id="hard_q1_option2" value="2">
+                    <label class="form-check-label" for="hard_q1_option2">\( \tfrac{1}{3}\)</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="hardQuestion1" id="hard_q1_option3" value="3">
+                    <label class="form-check-label" for="hard_q1_option3">\( \tfrac{1}{2} \) & \( 2\)</label>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="hardQuestion1" id="hard_q1_option4" value="4">
+                    <label class="form-check-label" for="hard_q1_option4">\( 3\) & \( 9\)</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ny knap, der kalder en separat funktion -->
+        <button type="button" class="btn btn-primary" onclick="checkAnswersHard()">
+            Indsend svar
+        </button>
+    </form>
+
+    <!-- Resultat for den “svære opgave” -->
+    <div id="quiz-result-hard" class="mt-4" style="display: none;">
+        <h3>Quiz Resultat (Svær Opgave)</h3>
+        <div class="alert alert-info">
+            Du fik <span id="score-hard"></span> ud af <span id="total-hard"></span> spørgsmål korrekt!
+        </div>
+        <button type="button" class="btn btn-secondary" onclick="resetQuizHard()">
+            Prøv igen
+        </button>
+    </div>
+</div>
+
+    
+    
+    
+</div>
+
+
+
 
 
 
