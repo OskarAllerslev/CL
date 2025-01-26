@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Mine Points{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Mine Points</h1>
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Samlede Points</h5>
+            <p class="card-text">Du har <strong>{{ current_user.get_total_points() }}</strong> points.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Fuldførte Opgaver</h5>
+            <ul class="list-group">
+                {% for point in current_user.points %}
+                <li class="list-group-item">
+                    {{ point.opgave.navn }} - {{ point.points }} points
+                </li>
+                {% else %}
+                <li class="list-group-item">Ingen fuldførte opgaver endnu.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

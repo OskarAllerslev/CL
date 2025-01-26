@@ -475,3 +475,35 @@ video::-webkit-media-controls-enclosure {
 .form-check-label:hover {
     color: #007bff; /* Blå tekst ved hover */
 }
+
+
+/* CSS styling af points i footer i sidebar */
+
+/* Style for points-indikatoren */
+.points-indicator {
+    margin-bottom: 20px; /* Mere mellemrum ned til logud-knappen */
+}
+
+.points-circle {
+    display: inline-block;
+    width: 40px; /* Større cirkel */
+    height: 40px; /* Større cirkel */
+    border-radius: 50%; /* Gør den rund */
+    background-color: #007bff; /* Blå farve */
+    color: white;
+    text-align: center;
+    line-height: 40px; /* Centrer teksten lodret */
+    font-size: 16px; /* Større tekst */
+    font-weight: bold; /* Fed tekst */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Tilføj en lille skygge */
+}
+
+/* Juster afstanden mellem "Logget ind som" og points-indikatoren */
+.text-muted.mb-2 {
+    margin-bottom: 15px; /* Øget afstand */
+}
+
+/* Juster afstanden mellem points-indikatoren og logud-knappen */
+.points-indicator {
+    margin-bottom: 20px; /* Øget afstand */
+}

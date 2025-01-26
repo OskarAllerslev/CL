@@ -124,7 +124,8 @@ function insertFraction() {
     mathField.focus(); // Behold fokus på MathQuill-feltet
 }
 
-// Funktion til at tjekke svarene
+<!-- I definite_integral.html -->
+
 function checkAnswers() {
     let score = 0;
     const totalQuestions = 2;
@@ -147,7 +148,29 @@ function checkAnswers() {
     document.getElementById('score').textContent = score;
     document.getElementById('total').textContent = totalQuestions;
     document.getElementById('quiz-result').style.display = 'block';
+
+    // Send points til serveren, hvis alle spørgsmål er besvaret korrekt
+    if (score === totalQuestions) {
+        fetch('/give-points', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                opgave_id: 1, // ID for denne opgave
+                points: 1 // Points for denne opgave
+            })
+        }).then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  alert('Du har fået points!');
+                  // Genindlæs siden for at opdatere points i sidebaren
+                  location.reload();
+              }
+          });
+    }
 }
+
 
 // Funktion til at nulstille quizzen
 function resetQuiz() {

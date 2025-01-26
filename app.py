@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -40,7 +40,10 @@ class Bruger(UserMixin, db.Model):
         'Bruger', 
         backref=db.backref('laerer', remote_side=[id])  # <-- Vigtigt: remote_side=[id]
     )
-
+    def get_total_points(self):
+        total = db.session.query(db.func.sum(BrugerPoints.points)).filter(BrugerPoints.bruger_id == self.id).scalar()
+        return total if total else 0
+    
     def set_adgangskode(self, adgangskode):
         self.adgangskode = generate_password_hash(adgangskode)
 
@@ -64,6 +67,18 @@ class Adgang(db.Model):
 class GyldigtBrugernavn(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     brugernavn = db.Column(db.String(80), unique=True, nullable=False)
+
+
+class BrugerPoints(db.Model):
+    __tablename__ = 'bruger_points'
+    id = db.Column(db.Integer, primary_key=True)
+    bruger_id = db.Column(db.Integer, db.ForeignKey('brugere.id'), nullable=False)
+    opgave_id = db.Column(db.Integer, db.ForeignKey('opgave.id'), nullable=False)
+    points = db.Column(db.Integer, nullable=False)
+
+    # Relation til Bruger og Opgave
+    bruger = db.relationship('Bruger', backref='points')
+    opgave = db.relationship('Opgave', backref='points')
 
 # ------------------------------------------------------
 # 4) Flask-Login user_loader
@@ -113,6 +128,31 @@ def check():
     gyldige = GyldigtBrugernavn.query.all()
     return f"Gyldige brugernavne: {[g.brugernavn for g in gyldige]}"
 
+
+@app.route('/give-points', methods=['POST'])
+@login_required
+def give_points():
+    data = request.get_json()  # Hent JSON-data fra anmodningen
+    if not data:
+        return jsonify({'success': False, 'message': 'Ingen data modtaget'}), 400
+
+    opgave_id = data.get('opgave_id')
+    points = data.get('points')
+
+    if not opgave_id or not points:
+        return jsonify({'success': False, 'message': 'Manglende opgave_id eller points'}), 400
+
+    # Tjek om brugeren allerede har løst denne opgave
+    existing_points = BrugerPoints.query.filter_by(bruger_id=current_user.id, opgave_id=opgave_id).first()
+    if existing_points:
+        return jsonify({'success': False, 'message': 'Du har allerede fået points for denne opgave.'}), 400
+
+    # Gem points i databasen
+    new_points = BrugerPoints(bruger_id=current_user.id, opgave_id=opgave_id, points=points)
+    db.session.add(new_points)
+    db.session.commit()
+
+    return jsonify({'success': True, 'message': 'Points tilføjet!'}), 200
 @app.route('/opret-bruger', methods=['GET', 'POST'])
 def opret_bruger():
     if request.method == 'POST':
@@ -191,6 +231,11 @@ def fjern_tilknytning(elev_id):
         flash('Du kan kun fjerne dine egne elever', 'warning')
     
     return redirect(url_for('laerer_dashboard'))
+
+@app.route('/points')
+@login_required
+def points():
+    return render_template('points.html')
 
 @app.route('/funktioner')
 @login_required
