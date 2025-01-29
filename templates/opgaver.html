@@ -53,9 +53,6 @@
 </div>
 
 <script>
-/**
- * Henter en tilfældig opgave for det valgte emne (subject)
- */
 function fetchQuestion() {
     let subject = document.getElementById("subjectSelect").value;
 
@@ -67,6 +64,7 @@ function fetchQuestion() {
     .then(response => response.json())
     .then(data => {
         if (data.message) {
+            // Hvis der ikke er flere opgaver
             alert(data.message);
         } else {
             // Vis opgave-container
@@ -76,35 +74,30 @@ function fetchQuestion() {
             document.getElementById("questionText").innerText = data.latex_question;
             document.getElementById("questionText").setAttribute("data-id", data.question_id);
 
-            // Vis opgavens "difficulty" som points
-            document.getElementById("pointsText").innerText = data.difficulty;
+            // Vis opgavens "difficulty" i <p id="pointsText">
+            document.getElementById("pointsText").innerText = "Denne opgave giver " + data.difficulty + " point.";
 
-            // Render LaTeX i selve opgaveteksten, hvis du bruger MathJax
+            // Render LaTeX
             MathJax.typesetPromise();
 
             // Initialiser MathQuill
             var MQ = MathQuill.getInterface(2);
-            // Gem feltet globalt, så insertSymbol() m.fl. kan bruge det
             window.mathField = MQ.MathField(document.getElementById('mathquillInput'), {
                 spaceBehavesLikeTab: true,
                 handlers: {
                     edit: function() {
-                        // Kopiér latex fra MathQuill til hidden input
                         document.getElementById('answerInput').value = window.mathField.latex();
                     }
                 }
             });
 
-            // Nulstil felterne mellem opgaver
+            // Nulstil felterne
             window.mathField.latex('');
             document.getElementById('answerInput').value = '';
         }
     });
 }
 
-/**
- * Indsætter en given streng (f.eks. +, -, /, ^) i MathQuill-feltet
- */
 function insertSymbol(symbol) {
     if (window.mathField) {
         window.mathField.cmd(symbol);
@@ -112,20 +105,13 @@ function insertSymbol(symbol) {
     }
 }
 
-/**
- * Indsætter integral-notation i MathQuill-feltet
- */
 function insertIntegral() {
     if (window.mathField) {
-        // En måde at indsætte ∫ med grænser på
         window.mathField.write("\\int_{ }^{ }");
         window.mathField.focus();
     }
 }
 
-/**
- * Indsætter en brøk i MathQuill-feltet
- */
 function insertFraction() {
     if (window.mathField) {
         window.mathField.cmd("\\frac");
@@ -133,15 +119,11 @@ function insertFraction() {
     }
 }
 
-/**
- * Sender brugerens svar til serveren for at tjekke korrekthed
- */
 function submitAnswer() {
     let questionId = document.getElementById("questionText").getAttribute("data-id");
     let userAnswer = document.getElementById("answerInput").value;
 
     if (!questionId || !userAnswer) {
-        // Brug SweetAlert2 hvis du har det inkluderet, ellers kan du bare bruge alert()
         Swal.fire("Fejl", "Udfyld svaret først!", "error");
         return;
     }
@@ -154,14 +136,16 @@ function submitAnswer() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            Swal.fire("Korrekt!", data.message, "success");
-            document.getElementById("pointsText").innerText = "Du har nu " + data.new_points + " points i alt.";
-        } else {
-            Swal.fire("Forkert", data.message, "error")
+            // (NYT) Først viser vi ny total i pointsText...
+            Swal.fire("Korrekt!", data.message, "success")
             .then(() => {
-                // Hvis du vil have en ny opgave ved forkert svar:
-                // fetchQuestion();
+                document.getElementById("pointsText").innerText = "Du har nu " + data.new_points + " points i alt.";
+                // (NYT) ...og så henter vi en ny uløst opgave med det samme:
+                fetchQuestion();
             });
+        } else {
+            Swal.fire("Forkert", data.message, "error");
+            // Evt. fetchQuestion() her også, hvis du vil have en ny opgave ved forkert svar
         }
     });
 }
