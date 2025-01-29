@@ -2,7 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-
+import random
+import re
 app = Flask(__name__)
 app.secret_key = 'din_hemmelige_nøgle'  # Skift dette til en sikker nøgle i produktion
 
@@ -56,6 +57,10 @@ class Opgave(db.Model):
     navn = db.Column(db.String(80), nullable=False)
     beskrivelse = db.Column(db.String(200))
     sværhedsgrad = db.Column(db.String(20), nullable=False)  # 'let', 'svær', 'meget_svær'
+    subject = db.Column(db.String(80), nullable=False)
+    latex_question = db.Column(db.Text, nullable=False)  # Ændret til db.Text
+    latex_answer = db.Column(db.Text, nullable=False)  # Ændret til db.Text
+    difficulty = db.Column(db.Integer, nullable=False)
 
 
 class Adgang(db.Model):
@@ -128,6 +133,63 @@ def check():
     gyldige = GyldigtBrugernavn.query.all()
     return f"Gyldige brugernavne: {[g.brugernavn for g in gyldige]}"
 
+@app.route('/opgaver', methods=['GET'])
+@login_required
+def opgaver():
+    subjects = db.session.query(db.distinct(Opgave.subject)).all()
+    subjects = [s[0] for s in subjects]  # Ekstraher kun navnene
+    return render_template('opgaver.html', subjects=subjects)
+
+@app.route('/get-question', methods=['POST'])
+@login_required
+def get_question():
+    data = request.get_json()
+    subject = data.get('subject')
+    difficulty_range = (1, 3)  # Just an example range, adjust as needed
+
+    questions = Opgave.query.filter(
+        Opgave.subject == subject,
+        Opgave.difficulty.between(*difficulty_range)
+    ).all()
+
+    if questions:
+        question = random.choice(questions)
+        return jsonify({
+            'question_id': question.id,
+            'latex_question': question.latex_question,
+            'latex_answer': question.latex_answer
+        })
+    else:
+        return jsonify({'message': 'Ingen opgaver fundet'}), 404
+
+def clean_latex(latex):
+    return re.sub(r"\s+", "", latex).strip()
+
+@app.route('/submit-answer', methods=['POST'])
+@login_required
+def submit_answer():
+    data = request.get_json()
+    question_id = data.get('question_id')
+    user_answer = data.get('answer')
+
+    
+
+    question = Opgave.query.get(question_id)
+    if not question:
+        return jsonify({'success': False, 'message': 'Spørgsmålet findes ikke'}), 400
+    
+    if clean_latex(user_answer) == clean_latex(question.latex_answer):
+        bruger_point = BrugerPoints.query.filter_by(bruger_id=current_user.id, opgave_id=question.id).first()
+        
+        if not bruger_point:
+            new_points = BrugerPoints(bruger_id=current_user.id, opgave_id=question.id, points=question.difficulty)
+            db.session.add(new_points)
+            db.session.commit()
+        return jsonify({'success': True, 'message': 'Korrekt!', 'new_points': current_user.get_total_points()})
+    else:
+        return jsonify({'success': False, 'message': 'Forkert svar, prøv igen'})
+        
+    
 
 @app.route('/give-points', methods=['POST'])
 @login_required
