@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block title %}Opgaver{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h1 class="mb-4 text-center">Vælg et emne</h1>
+                    <select id="subjectSelect" class="form-select mb-3">
+                        {% for subject in subjects %}
+                        <option value="{{ subject }}">{{ subject }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <button class="btn btn-primary w-100" onclick="fetchQuestion()">Hent Opgave</button>
+
+                    <div id="questionContainer" class="mt-4" style="display: none;">
+                        <h2>Opgave:</h2>
+                        <p id="questionText" data-id=""></p>
+                        
+                        <h3>Svar:</h3>
+                        <div id="mathquillContainer">
+                            <div id="mathquillInput" class="mathquill-input form-control"></div>
+                            <input type="hidden" id="answerInput">
+                        </div>
+                        
+                        <div class="math-buttons mb-3">
+                            <button type="button" class="btn btn-secondary" onclick="insertIntegral()">∫ med grænser</button>
+                            <button type="button" class="btn btn-secondary" onclick="insertFraction()">Brøk</button>
+                            <button type="button" class="btn btn-secondary" onclick="insertSymbol('^')">^</button>
+                            <button type="button" class="btn btn-secondary" onclick="insertSymbol('(')">(</button>
+                            <button type="button" class="btn btn-secondary" onclick="insertSymbol(')')">)</button>
+                            <button type="button" class="btn btn-secondary" onclick="insertSymbol('e')">e</button>
+                            <button type="button" class="btn btn-secondary" onclick="insertSymbol('x')">x</button>
+                            <button type="button" class="btn btn-secondary" onclick="insertSymbol('+')">+</button>
+                            <button type="button" class="btn btn-secondary" onclick="insertSymbol('-')">-</button>
+                            <button type="button" class="btn btn-secondary" onclick="insertSymbol('*')">*</button>
+                            <button type="button" class="btn btn-secondary" onclick="insertSymbol('/')">/</button>
+                        </div>
+
+                        <button class="btn btn-success w-100 mt-3" onclick="submitAnswer()">Indsend Svar</button>
+
+                        <h3 class="mt-4">Points:</h3>
+                        <p id="pointsText"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function fetchQuestion() {
+    let subject = document.getElementById("subjectSelect").value;
+
+    fetch("/get-question", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ subject: subject })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            // Hvis der ikke er flere opgaver
+            alert(data.message);
+        } else {
+            // Vis opgave-container
+            document.getElementById("questionContainer").style.display = "block";
+
+            // Vis opgave-tekst og gem question_id i data-id
+            document.getElementById("questionText").innerText = data.latex_question;
+            document.getElementById("questionText").setAttribute("data-id", data.question_id);
+
+            // Vis opgavens "difficulty" i <p id="pointsText">
+            document.getElementById("pointsText").innerText = "Denne opgave giver " + data.difficulty + " point.";
+
+            // Render LaTeX
+            MathJax.typesetPromise();
+
+            // Initialiser MathQuill
+            var MQ = MathQuill.getInterface(2);
+            window.mathField = MQ.MathField(document.getElementById('mathquillInput'), {
+                spaceBehavesLikeTab: true,
+                handlers: {
+                    edit: function() {
+                        document.getElementById('answerInput').value = window.mathField.latex();
+                    }
+                }
+            });
+
+            // Nulstil felterne
+            window.mathField.latex('');
+            document.getElementById('answerInput').value = '';
+        }
+    });
+}
+
+function insertSymbol(symbol) {
+    if (window.mathField) {
+        window.mathField.cmd(symbol);
+        window.mathField.focus();
+    }
+}
+
+function insertIntegral() {
+    if (window.mathField) {
+        window.mathField.write("\\int_{ }^{ }");
+        window.mathField.focus();
+    }
+}
+
+function insertFraction() {
+    if (window.mathField) {
+        window.mathField.cmd("\\frac");
+        window.mathField.focus();
+    }
+}
+
+function submitAnswer() {
+    let questionId = document.getElementById("questionText").getAttribute("data-id");
+    let userAnswer = document.getElementById("answerInput").value;
+
+    if (!questionId || !userAnswer) {
+        Swal.fire("Fejl", "Udfyld svaret først!", "error");
+        return;
+    }
+
+    fetch("/submit-answer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question_id: questionId, answer: userAnswer })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // (NYT) Først viser vi ny total i pointsText...
+            Swal.fire("Korrekt!", data.message, "success")
+            .then(() => {
+                document.getElementById("pointsText").innerText = "Du har nu " + data.new_points + " points i alt.";
+                // (NYT) ...og så henter vi en ny uløst opgave med det samme:
+                fetchQuestion();
+            });
+        } else {
+            Swal.fire("Forkert", data.message, "error");
+            // Evt. fetchQuestion() her også, hvis du vil have en ny opgave ved forkert svar
+        }
+    });
+}
+</script>
+{% endblock %}
