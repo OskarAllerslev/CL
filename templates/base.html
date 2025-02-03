@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
    
     <script>
@@ -29,12 +29,14 @@
     <div class="container-fluid d-flex flex-column min-vh-100">
         <div class="row flex-grow-1">
             <!-- Sidebar -->
-            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <nav id="sidebar" class="col-md-2 d-none d-md-block bg-light sidebar">
+                
                 <div class="position-sticky pt-3 d-flex flex-column" style="height: 100vh;">
+                    
                     <div>
                         <a href="/" class="d-flex align-items-center mb-3 link-dark text-decoration-none">
                             <i class="fas fa-home me-2"></i>
-                            <h4 class="text-center py-3">Nørd</h4>
+                            <h4 class="text-center py-3">Nørd </h4>
                         </a>
                         <ul class="nav flex-column">
                             <!-- Chapter: funktioner -->
@@ -143,9 +145,11 @@
                     {% endif %}
                 </div>
             </nav>
-
+            <button id="sidebar-toggle" class="toggle-btn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
             <!-- Main Content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
                 {% block content %}{% endblock %}
             </main>
         </div>
@@ -177,5 +181,6 @@
         });
         </script>
         <script src="static\scripts\funktioner.js"></script>
+        <script src="static\scripts\sidebar_collapse.js"></script>
 </body>
 </html>
